@@ -20,9 +20,11 @@ class Credits extends Phaser.Scene{
             
         }   
 
-        this.add.text(game.config.width/2, game.config.height/2, 'CREDITS', textConfig).setOrigin(0.5)
-        this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press ← for Menu', textConfig).setOrigin(0.5)
-        this.add.text(game.config.width/2, game.config.height/2 + 128, 'Press → for Help', textConfig).setOrigin(0.5)
+        // this.add.text(game.config.width/2, game.config.height/2, 'CREDITS', textConfig).setOrigin(0.5)
+        // this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press ← for Menu', textConfig).setOrigin(0.5)
+        // this.add.text(game.config.width/2, game.config.height/2 + 128, 'Press → for Help', textConfig).setOrigin(0.5)
+
+        this.add.image(0,0, 'creditsMenu').setOrigin(0)
     }
 
     update(){

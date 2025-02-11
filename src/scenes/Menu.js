@@ -63,6 +63,12 @@ class Menu extends Phaser.Scene{
         //load other images
         this.load.image('crashRaccoon', "crash.png")
         this.load.image('caughtRaccoon',"caught.png")
+
+
+        //menu images
+        this.load.image('mainMenu', 'mainMenu.png')
+        this.load.image('helpMenu', 'helpMenu.png')
+        this.load.image('creditsMenu', 'creditsMenu.png')
     }
 
     create(){
@@ -141,10 +147,12 @@ class Menu extends Phaser.Scene{
             
         }   
 
-        this.add.text(game.config.width/2, game.config.height/2, 'MENU', textConfig).setOrigin(0.5)
-        this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press ← for Credits', textConfig).setOrigin(0.5)
-        this.add.text(game.config.width/2, game.config.height/2 + 128, 'Press → for Menu', textConfig).setOrigin(0.5)
-        this.add.text(game.config.width/2, game.config.height/2 + 192, 'Press (ENTER) for Menu', textConfig).setOrigin(0.5)
+        // this.add.text(game.config.width/2, game.config.height/2, 'MENU', textConfig).setOrigin(0.5)
+        // this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press ← for Credits', textConfig).setOrigin(0.5)
+        // this.add.text(game.config.width/2, game.config.height/2 + 128, 'Press → for Menu', textConfig).setOrigin(0.5)
+        // this.add.text(game.config.width/2, game.config.height/2 + 192, 'Press (ENTER) to Start', textConfig).setOrigin(0.5)
+
+        this.add.image(0,0, 'mainMenu').setOrigin(0)
         
     }
 

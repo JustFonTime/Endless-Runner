@@ -22,9 +22,11 @@ class Help extends Phaser.Scene{
             
         }   
 
-        this.add.text(game.config.width/2, game.config.height/2, 'HELP', textConfig).setOrigin(0.5)
-        this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press ← for Credits', textConfig).setOrigin(0.5)
-        this.add.text(game.config.width/2, game.config.height/2 + 128, 'Press → for Menu', textConfig).setOrigin(0.5)
+        // this.add.text(game.config.width/2, game.config.height/2, 'HELP', textConfig).setOrigin(0.5)
+        // this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press ← for Credits', textConfig).setOrigin(0.5)
+        // this.add.text(game.config.width/2, game.config.height/2 + 128, 'Press → for Menu', textConfig).setOrigin(0.5)
+
+        this.add.image(0,0, 'helpMenu').setOrigin(0)
     }
 
 
