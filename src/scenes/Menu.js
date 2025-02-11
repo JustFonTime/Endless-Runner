@@ -66,49 +66,93 @@ class Menu extends Phaser.Scene{
     }
 
     create(){
+        //set keybinds
+        keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT)
+        keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT)
+        keyENTER = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER)
 
-        this.anims.create({
-            key: 'raccoon-run',
-            frames: this.anims.generateFrameNumbers('raccoon', {start: 0, end: 15, first: 0}),
-            framerate: 30,
-            repeat: -1,
+        //create the animations
+        if (!this.anims.exists('raccoon-run')) {
+            this.anims.create({
+                key: 'raccoon-run',
+                frames: this.anims.generateFrameNumbers('raccoon', {start: 0, end: 15, first: 0}),
+                framerate: 30,
+                repeat: -1,
+            })
+        }
+
+        if(!this.anims.exists('car1-drive') || !this.anims.exists('car2-drive') || !this.anims.exists('car3-drive') || !this.anims.exists('car4-drive')){
+            this.anims.create({
+                key: 'car1-drive',
+                frames: this.anims.generateFrameNumbers('car1', {start: 0, end: 3, first: 0}),
+                framerate: 30,
+                repeat: -1,
+            })
+            this.anims.create({
+                key: 'car2-drive',
+                frames: this.anims.generateFrameNumbers('car2', {start: 0, end: 3, first: 0}),
+                framerate: 30,
+                repeat: -1,
+            })
+            this.anims.create({
+                key: 'car3-drive',
+                frames: this.anims.generateFrameNumbers('car3', {start: 0, end: 3, first: 0}),
+                framerate: 30,
+                repeat: -1,
+            })
+            this.anims.create({
+                key: 'car4-drive',
+                frames: this.anims.generateFrameNumbers('car4', {start: 0, end: 3, first: 0}),
+                framerate: 30,
+                repeat: -1,
+            })
+        }
+
+        if(!this.anims.exists('acontrol-walk')){
+            this.anims.create({
+                key: 'acontrol-walk',
+                frames: this.anims.generateFrameNumbers('animacontrol', {start: 0, end: 5, first: 0}),
+                framerate: 12,
+                repeat: -1,
+            })
+        }
+
+        this.bgm = this.sound.add('titleBGM',{
+            mute: false,
+            volume: 0.5,
+            rate: 1,
+            loop: true,
         })
 
-        this.anims.create({
-            key: 'car1-drive',
-            frames: this.anims.generateFrameNumbers('car1', {start: 0, end: 3, first: 0}),
-            framerate: 30,
-            repeat: -1,
-        })
-        this.anims.create({
-            key: 'car2-drive',
-            frames: this.anims.generateFrameNumbers('car2', {start: 0, end: 3, first: 0}),
-            framerate: 30,
-            repeat: -1,
-        })
-        this.anims.create({
-            key: 'car3-drive',
-            frames: this.anims.generateFrameNumbers('car3', {start: 0, end: 3, first: 0}),
-            framerate: 30,
-            repeat: -1,
-        })
-        this.anims.create({
-            key: 'car4-drive',
-            frames: this.anims.generateFrameNumbers('car4', {start: 0, end: 3, first: 0}),
-            framerate: 30,
-            repeat: -1,
-        })
-
-        this.anims.create({
-            key: 'acontrol-walk',
-            frames: this.anims.generateFrameNumbers('animacontrol', {start: 0, end: 5, first: 0}),
-            framerate: 12,
-            repeat: -1,
-        })
+        if(!(menuMusicIsPlaying)){
+            this.bgm.play()
+            menuMusicIsPlaying = true
+        }
+        
     }
 
     update(){
-        this.scene.start('playScene')
+
+        if (Phaser.Input.Keyboard.JustDown(keyLEFT)){
+            this.sound.play('menuSFX', { volume: 0.5 }); 
+            this.scene.start("creditsScene")
+        }
+
+
+        if (Phaser.Input.Keyboard.JustDown(keyRIGHT)){
+            this.sound.play('menuSFX', { volume: 0.5 }); 
+            this.scene.start("helpScene")
+        }
+
+
+        if (Phaser.Input.Keyboard.JustDown(keyENTER)){
+            this.sound.stopAll()
+            this.sound.play('menuSFX', { volume: 0.5 }); 
+            this.scene.stop()
+            this.scene.start("playScene")
+            menuMusicIsPlaying = false
+            endCause = null
+        }
 
     }
 }

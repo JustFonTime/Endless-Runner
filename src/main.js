@@ -21,10 +21,10 @@ const config = {
     physics: {
         default: "arcade",
         arcade: {
-            debug: true
+            debug: false
         },
     },
-    scene: [ Menu, Play, GameOver],
+    scene: [ Menu, Help, Credits, Play, GameOver],
 }
 
 const game = new Phaser.Game(config)
@@ -45,9 +45,9 @@ let lane04_bottom = 438
 
 
 //key bindings
-let keyUP, keyDOWN, keyLEFT, keyRESET
+let keyUP, keyDOWN, keyLEFT, keyRIGHT, keyENTER, keyRESET
 
-
+let menuMusicIsPlaying
 let highScore
 let endCause
 
