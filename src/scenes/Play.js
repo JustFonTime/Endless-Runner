@@ -20,7 +20,7 @@ class Play extends Phaser.Scene{
         this.carSpeed = -200
         this.maxCarSpeed = -800
         this.ACSpeed = -150
-        this.maxACSpeed = - 300
+        this.maxACSpeed = -400
         
         
         //initialize variable to store player current score
@@ -62,6 +62,15 @@ class Play extends Phaser.Scene{
         })
 
 
+        //up difficulty every 100m
+        this.difficultyTimer = this.time.addEvent({
+            delay: 10000,
+            callback: this.difficultyIncrease,
+            callbackScope: this,
+            loop: true
+        })
+
+
         //background music
 
         let bgmConfig = {
@@ -79,16 +88,31 @@ class Play extends Phaser.Scene{
     addObstacle(){
             //random lane
             let randLane = Phaser.Math.Between(1,4)
+
+            //random car sprite
             let randCar = "car" + Phaser.Math.Between(1,4)
+
+            //random speeds, spahgetti attempt
+            let speedVarianceCar = this.carSpeed - Phaser.Math.Between(0, 50)
+            let speedVarianceAC = this.ACSpeed - Phaser.Math.Between(0, 50)
+            
+
+            if(this.carSpeed - speedVarianceCar < this.maxCarSpeed){
+                speedVarianceCar = this.carSpeed
+            }
+
+            if(this.ACSpeed - speedVarianceAC < this.maxACSpeed){
+                speedVarianceAC = this.ACSpeed
+            }
             
             //based on lane determine which sprite to show
             if(randLane == 2 || randLane == 3){
-                let carObstacle = new Obstacle(this, this.game.config.width, null, randCar, 0, randLane, this.carSpeed).setOrigin(0,0).setScale(3)
+                let carObstacle = new Obstacle(this, this.game.config.width, null, randCar, 0, randLane, speedVarianceCar).setOrigin(0,0).setScale(3)
                 carObstacle.play(randCar + '-drive')
                 this.obstacleGroup.add(carObstacle)
             }
             else{
-                let animaControlObstacle = new Obstacle(this, this.game.config.width, null, 'animacontrol', 0, randLane, this.ACSpeed).setOrigin(0,0)
+                let animaControlObstacle = new Obstacle(this, this.game.config.width, null, 'animacontrol', 0, randLane, speedVarianceAC).setOrigin(0,0)
                 animaControlObstacle.play('acontrol-walk')
                 this.obstacleGroup.add(animaControlObstacle)
             }
@@ -101,11 +125,6 @@ class Play extends Phaser.Scene{
         if(!this.gameOver){
             //perform collision check to determine if game end
             this.physics.add.collider(this.raccoon, this.obstacleGroup, this.collision, null, this)
-
-
-            if((this.playerScore % 200) == 0 && this.playerScore > 0){
-                this.difficultyIncrease()
-            }
         }
 
         if(this.gameOver){
@@ -136,7 +155,19 @@ class Play extends Phaser.Scene{
     }
 
     difficultyIncrease(){
-        console.log('increasing difficulty')
+        //play sound
+
+        //increase base speed of obstacles
+        if(this.carSpeed >= this.maxCarSpeed){
+            this.carSpeed -= 25
+            //change bgm rate
+        }
+
+        //increase base speed of obstacles
+        if(this.ACSpeed >= this.maxACSpeed){
+            this.ACSpeed -= 25
+            //change bgm rate
+        }
     }
 
     
