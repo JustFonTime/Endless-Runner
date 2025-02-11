@@ -128,6 +128,23 @@ class Menu extends Phaser.Scene{
             this.bgm.play()
             menuMusicIsPlaying = true
         }
+
+        let textConfig = {
+            fontFamily: 'Comic Sans',
+            fontSize: '30px',
+            color: '#FFFFFF',
+            align: 'center',
+            padd: {
+                top: 5,
+                bottom: 5,
+            },
+            
+        }   
+
+        this.add.text(game.config.width/2, game.config.height/2, 'MENU', textConfig).setOrigin(0.5)
+        this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press ← for Credits', textConfig).setOrigin(0.5)
+        this.add.text(game.config.width/2, game.config.height/2 + 128, 'Press → for Menu', textConfig).setOrigin(0.5)
+        this.add.text(game.config.width/2, game.config.height/2 + 192, 'Press (ENTER) for Menu', textConfig).setOrigin(0.5)
         
     }
 
