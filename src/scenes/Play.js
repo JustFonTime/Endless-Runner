@@ -13,6 +13,7 @@ class Play extends Phaser.Scene{
         keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP)
         keyDOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN)
 
+
         //game over flag
         this.gameOver = false
 
@@ -131,7 +132,8 @@ class Play extends Phaser.Scene{
         if(this.gameOver){
             //handle end screen
             this.bgm.stop()
-            this.scene.restart()
+            this.scene.stop()
+            this.scene.start("gameoverScene")   
         }
 
         //scroll the background
@@ -158,11 +160,15 @@ class Play extends Phaser.Scene{
         if(!obstacle.hit){
             obstacle.hit = true
             if (obstacle.texture.key.includes("car")) {
+                endCause = 'crash'
                 this.sound.play("crash") // Ensure 'carHit' is preloaded
+                
             }
             else if(obstacle.texture.key.includes("animacontrol")){
+                //this.cameras.main.fade(100, 0, 0, 0)
+                endCause = 'ac'
                 let rNum = Phaser.Math.Between(1,2)
-                this.sound.play("caught" + rNum)
+                this.sound.play("caught" + rNum,)
             }
             this.gameOver = true
         }

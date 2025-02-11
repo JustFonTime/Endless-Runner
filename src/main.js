@@ -24,7 +24,7 @@ const config = {
             debug: true
         },
     },
-    scene: [ Menu, Play ],
+    scene: [ Menu, Play, GameOver],
 }
 
 const game = new Phaser.Game(config)
@@ -45,5 +45,9 @@ let lane04_bottom = 438
 
 
 //key bindings
-let keyUP, keyDOWN, keyRIGHT, keyR
+let keyUP, keyDOWN, keyLEFT, keyRESET
+
+
+let highScore
+let endCause
 

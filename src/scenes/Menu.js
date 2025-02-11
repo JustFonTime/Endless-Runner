@@ -59,6 +59,10 @@ class Menu extends Phaser.Scene{
         this.load.audio('bgm1', "./bgm/Universfield - Happy Twist.mp3")
         this.load.audio('bgm2', "./bgm/Zane Little - Apple Cider.mp3")
         this.load.audio('gameOverBGM', "./bgm/Universfield - Melancholic Sad Piano.mp3")
+
+        //load other images
+        this.load.image('crashRaccoon', "crash.png")
+        this.load.image('caughtRaccoon',"caught.png")
     }
 
     create(){
