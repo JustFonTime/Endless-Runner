@@ -42,8 +42,18 @@ class Play extends Phaser.Scene{
         //display the players current score
         this.scoreText = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding*2, this.playerScore + 'm', scoreConfig)
 
+        
+
+        //up difficulty every 100m
+                this.difficultyTimer = this.time.addEvent({
+                    delay: 10000,
+                    callback: this.difficultyIncrease,
+                    callbackScope: this,
+                    loop: true
+                })
+                
         //every 1 second, add to the score
-        this.scoreClock()
+                this.scoreClock()
 
         //draw in the player character and start the running animation
         this.raccoon = new Raccoon(this, this.game.config.width/16, this.game.config.height/2, 'raccoon', 0, 0).setOrigin(0,0).setScale(1.5)
@@ -62,26 +72,19 @@ class Play extends Phaser.Scene{
         })
 
 
-        //up difficulty every 100m
-        this.difficultyTimer = this.time.addEvent({
-            delay: 10000,
-            callback: this.difficultyIncrease,
-            callbackScope: this,
-            loop: true
-        })
+        
 
 
         //background music
+        let songNum = Phaser.Math.Between(1,2)
 
-        let bgmConfig = {
+        this.bgm = this.sound.add('bgm' + songNum,{
             mute: false,
             volume: 0.5,
             rate: 1,
             loop: true,
-            delay: 0,
-        }
-        // const bgm = this.sound.add('bgm', bgmConfig);
-        // bgm.play()
+        })
+        this.bgm.play()
 
     }
 
@@ -96,7 +99,6 @@ class Play extends Phaser.Scene{
             let speedVarianceCar = this.carSpeed - Phaser.Math.Between(0, 50)
             let speedVarianceAC = this.ACSpeed - Phaser.Math.Between(0, 50)
             
-
             if(this.carSpeed - speedVarianceCar < this.maxCarSpeed){
                 speedVarianceCar = this.carSpeed
             }
@@ -116,7 +118,6 @@ class Play extends Phaser.Scene{
                 animaControlObstacle.play('acontrol-walk')
                 this.obstacleGroup.add(animaControlObstacle)
             }
-            
         }
 
     update(){
@@ -124,10 +125,12 @@ class Play extends Phaser.Scene{
         //check if the game had ended
         if(!this.gameOver){
             //perform collision check to determine if game end
-            this.physics.add.collider(this.raccoon, this.obstacleGroup, this.collision, null, this)
+            this.physics.add.overlap(this.raccoon, this.obstacleGroup, this.collision, null, this)
         }
 
         if(this.gameOver){
+            //handle end screen
+            this.bgm.stop()
             this.scene.restart()
         }
 
@@ -150,23 +153,40 @@ class Play extends Phaser.Scene{
     }
 
     //checks collision between raccoon and obstacle
-    collision(){
-        this.gameOver = true
+    //plays sound according to obstacle hit
+    collision(raccoon, obstacle){
+        if(!obstacle.hit){
+            obstacle.hit = true
+            if (obstacle.texture.key.includes("car")) {
+                this.sound.play("crash") // Ensure 'carHit' is preloaded
+            }
+            else if(obstacle.texture.key.includes("animacontrol")){
+                let rNum = Phaser.Math.Between(1,2)
+                this.sound.play("caught" + rNum)
+            }
+            this.gameOver = true
+        }
+        
+
+
     }
 
     difficultyIncrease(){
         //play sound
+        this.sound.play('scoreSFX')
 
         //increase base speed of obstacles
         if(this.carSpeed >= this.maxCarSpeed){
             this.carSpeed -= 25
             //change bgm rate
+            this.bgm.rate += 0.002
         }
 
         //increase base speed of obstacles
         if(this.ACSpeed >= this.maxACSpeed){
             this.ACSpeed -= 25
             //change bgm rate
+            this.bgm.rate += 0.01
         }
     }
 

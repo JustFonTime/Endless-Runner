@@ -47,11 +47,12 @@ class Menu extends Phaser.Scene{
         })
 
         //load sounds
-        this.load.audio('crash1', "./sfx/deathSound.wav")
+        this.load.audio('crash', "./sfx/deathSound.wav")
         this.load.audio('caught1', "./sfx/raccoon_01.mp3")
         this.load.audio('caught2', "./sfx/raccoon_02.mp3")
         
         this.load.audio('menuSFX', "./sfx/menuSound.wav")
+        this.load.audio('scoreSFX', "./sfx/beep.wav")
 
         //load music
         this.load.audio('titleBGM', "./bgm/Fish_Lim - In the tunnel.mp3")
