@@ -13,6 +13,11 @@ class Play extends Phaser.Scene{
         keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP)
         keyDOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN)
 
+        //game over flag
+        this.gameOver = false
+
+        //max obstacles allowed at a time
+        this.maxObstacle = 1    
         
         //initialize variable to store player current score
         this.playerScore = 0
@@ -37,45 +42,59 @@ class Play extends Phaser.Scene{
         this.scoreClock()
 
         //draw in the player character and start the running animation
-        this.raccoon = new Raccoon(this, this.game.config.width/16, this.game.config.height/2, 'raccoon', 0, 0).setOrigin(0,0).setScale(2)
-        //const raccoon = this.add.sprite(100, 225, 'raccoon').setScale(4)
+        this.raccoon = new Raccoon(this, this.game.config.width/16, this.game.config.height/2, 'raccoon', 0, 0).setOrigin(0,0)
+        this.physics.add.existing(this.raccoon)
         this.raccoon.play('raccoon-run')
 
+        this.time.addEvent({
+            delay: 1500,
+            callback: this.addObstacle,
+            callbackScope: this,
+            loop: true
+        });
 
-        // this.car1 = new Obstacle(this, this.game.config.width, this.game.config.height/2, 'car1', 0, 1).setOrigin(0,0).setScale(2)
-        // this.car1.play('car1-drive')
-
-
-        this.car2 = new Obstacle(this, this.game.config.width, this.game.config.height/2, 'car2', 0, 2).setOrigin(0,0).setScale(2)
-        this.car2.play('car2-drive')
-        this.car3 = new Obstacle(this, this.game.config.width, this.game.config.height/2, 'car3', 0, 3).setOrigin(0,0).setScale(2)
-        this.car3.play('car3-drive')
-        
+        this.obstacleGroup = this.add.group({
+            runChildUpdate: true
+        })
 
     }
+
+    addObstacle(){
+            //random lane
+            let randLane = Phaser.Math.Between(1,4)
+            let randCar = "car" + Phaser.Math.Between(1,4)
+            
+            //based on lane determine which sprite to show
+            if(randLane == 2 || randLane == 3){
+                let carObstacle = new Obstacle(this, this.game.config.width, null, randCar, 0, randLane, -250).setOrigin(0,0).setScale(2)
+                carObstacle.play(randCar + '-drive')
+                this.obstacleGroup.add(carObstacle)
+            }
+            else{
+                let animaControlObstacle = new Obstacle(this, this.game.config.width, null, 'animacontrol', 0, randLane, -200).setOrigin(0,0)
+                animaControlObstacle.play('acontrol-walk')
+                this.obstacleGroup.add(animaControlObstacle)
+            }
+            
+        }
 
     update(){
 
         //check if the game had ended
-
+        if(!this.gameOver){
             //perform collision check to determine if game end
+            this.physics.add.collider(this.raccoon, this.obstacleGroup, this.collision, null, this)
+        }
 
+        if(this.gameOver){
+            this.scene.restart()
+        }
 
         //scroll the background
         this.street.tilePositionX += 3
 
-
         //update player positions
         this.raccoon.update()
-
-
-        //randomize obstacle position (the lane it spawns in)
-
-        //update obstacle positions
-
-        //this.car1.update()
-        this.car2.update()
-        this.car3.update()
         
     }
 
@@ -89,10 +108,10 @@ class Play extends Phaser.Scene{
         }, null, this)
     }
 
-
     //checks collision between raccoon and obstacle
-    checkCollision(raccoon, obstacle){
-
+    collision(){
+        this.gameOver = true
     }
 
+    
 }

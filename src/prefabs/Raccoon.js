@@ -3,11 +3,13 @@ class Raccoon extends Phaser.GameObjects.Sprite {
         super(scene, x, y, texture, frame, lane)
 
         scene.add.existing(this)
+        
         this.runSpeed = 2
         this.currentLane = lane
     }
 
     update(){
+        
         //move raccoon based on player input
         if(keyUP.isDown && this.y >= lane01_top){
             this.y -= this.runSpeed

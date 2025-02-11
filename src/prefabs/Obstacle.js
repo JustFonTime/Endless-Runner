@@ -1,10 +1,12 @@
-class Obstacle extends Phaser.GameObjects.Sprite{
-    constructor(scene, x, y, texture, frame, lane){
-        super(scene, x, y, texture, frame, lane)
+class Obstacle extends Phaser.Physics.Arcade.Sprite{
+    constructor(scene, x, y, texture, frame, lane, speed){
+        super(scene, x, y, texture, frame, lane, speed)
 
         scene.add.existing(this)
+        scene.physics.add.existing(this)
+
+        this.body.setVelocityX(speed)
         this.currentLane = lane
-        this.speed = 4
     }
 
     update(){
@@ -23,17 +25,14 @@ class Obstacle extends Phaser.GameObjects.Sprite{
             case 4:
                 this.setY(Math.ceil((lane04_top + lane04_bottom)/2))
                 break;
-        
             default:
                 break;
         }
 
         //move obstacles, if obstacle reaches off screen destroy it 
-        if(this.x < (0 - this.width * 2)){
+        if(this.x < -this.width){
             this.destroy()
         }
-        else{
-            this.x -= this.speed
-        }
+        
     }
 }

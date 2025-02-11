@@ -1,8 +1,15 @@
 // Game Title:
-// Name:
+// Name: Justin Fong
 // Time Spent:
 
 // Creative Tilt Justification:
+
+//Credits:
+    //raccoon drawing original: https://www.reddit.com/r/animation/comments/qwbg1h
+        //I only remade and recolored the raccoon for this
+    //music: https://freemusicarchive.org
+        //
+    //sfx: https://sfbgames.itch.io/chiptone
 
 'use strict'
 
@@ -39,3 +46,4 @@ let lane04_bottom = 438
 
 //key bindings
 let keyUP, keyDOWN
+
