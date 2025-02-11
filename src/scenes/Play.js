@@ -17,7 +17,8 @@ class Play extends Phaser.Scene{
         this.gameOver = false
 
         //max obstacles allowed at a time
-        this.maxObstacle = 1    
+        this.maxCarSpeed = -700
+        this.maxACSpeed = - 300
         
         //initialize variable to store player current score
         this.playerScore = 0
@@ -42,12 +43,12 @@ class Play extends Phaser.Scene{
         this.scoreClock()
 
         //draw in the player character and start the running animation
-        this.raccoon = new Raccoon(this, this.game.config.width/16, this.game.config.height/2, 'raccoon', 0, 0).setOrigin(0,0)
+        this.raccoon = new Raccoon(this, this.game.config.width/16, this.game.config.height/2, 'raccoon', 0, 0).setOrigin(0,0).setScale(1.5)
         this.physics.add.existing(this.raccoon)
         this.raccoon.play('raccoon-run')
 
         this.time.addEvent({
-            delay: 1500,
+            delay: 1200,
             callback: this.addObstacle,
             callbackScope: this,
             loop: true
@@ -66,12 +67,12 @@ class Play extends Phaser.Scene{
             
             //based on lane determine which sprite to show
             if(randLane == 2 || randLane == 3){
-                let carObstacle = new Obstacle(this, this.game.config.width, null, randCar, 0, randLane, -250).setOrigin(0,0).setScale(2)
+                let carObstacle = new Obstacle(this, this.game.config.width, null, randCar, 0, randLane, -800).setOrigin(0,0).setScale(3)
                 carObstacle.play(randCar + '-drive')
                 this.obstacleGroup.add(carObstacle)
             }
             else{
-                let animaControlObstacle = new Obstacle(this, this.game.config.width, null, 'animacontrol', 0, randLane, -200).setOrigin(0,0)
+                let animaControlObstacle = new Obstacle(this, this.game.config.width, null, 'animacontrol', 0, randLane, -500).setOrigin(0,0)
                 animaControlObstacle.play('acontrol-walk')
                 this.obstacleGroup.add(animaControlObstacle)
             }

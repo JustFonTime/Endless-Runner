@@ -40,7 +40,7 @@ class Menu extends Phaser.Scene{
         })
         this.load.spritesheet('animacontrol', "./assets/animalcontrol.png", {
             frameWidth: 60,
-            frameHeight: 87,
+            frameHeight: 88,
             startFrame: 0,
             endFrame: 5,
         })
@@ -85,7 +85,7 @@ class Menu extends Phaser.Scene{
         this.anims.create({
             key: 'acontrol-walk',
             frames: this.anims.generateFrameNumbers('animacontrol', {start: 0, end: 5, first: 0}),
-            framerate: 16,
+            framerate: 12,
             repeat: -1,
         })
     }
