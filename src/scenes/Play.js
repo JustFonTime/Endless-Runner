@@ -17,8 +17,11 @@ class Play extends Phaser.Scene{
         this.gameOver = false
 
         //max obstacles allowed at a time
-        this.maxCarSpeed = -700
+        this.carSpeed = -200
+        this.maxCarSpeed = -800
+        this.ACSpeed = -150
         this.maxACSpeed = - 300
+        
         
         //initialize variable to store player current score
         this.playerScore = 0
@@ -48,7 +51,7 @@ class Play extends Phaser.Scene{
         this.raccoon.play('raccoon-run')
 
         this.time.addEvent({
-            delay: 1200,
+            delay: 1700,
             callback: this.addObstacle,
             callbackScope: this,
             loop: true
@@ -57,6 +60,19 @@ class Play extends Phaser.Scene{
         this.obstacleGroup = this.add.group({
             runChildUpdate: true
         })
+
+
+        //background music
+
+        let bgmConfig = {
+            mute: false,
+            volume: 0.5,
+            rate: 1,
+            loop: true,
+            delay: 0,
+        }
+        // const bgm = this.sound.add('bgm', bgmConfig);
+        // bgm.play()
 
     }
 
@@ -67,12 +83,12 @@ class Play extends Phaser.Scene{
             
             //based on lane determine which sprite to show
             if(randLane == 2 || randLane == 3){
-                let carObstacle = new Obstacle(this, this.game.config.width, null, randCar, 0, randLane, -800).setOrigin(0,0).setScale(3)
+                let carObstacle = new Obstacle(this, this.game.config.width, null, randCar, 0, randLane, this.carSpeed).setOrigin(0,0).setScale(3)
                 carObstacle.play(randCar + '-drive')
                 this.obstacleGroup.add(carObstacle)
             }
             else{
-                let animaControlObstacle = new Obstacle(this, this.game.config.width, null, 'animacontrol', 0, randLane, -500).setOrigin(0,0)
+                let animaControlObstacle = new Obstacle(this, this.game.config.width, null, 'animacontrol', 0, randLane, this.ACSpeed).setOrigin(0,0)
                 animaControlObstacle.play('acontrol-walk')
                 this.obstacleGroup.add(animaControlObstacle)
             }
@@ -85,6 +101,11 @@ class Play extends Phaser.Scene{
         if(!this.gameOver){
             //perform collision check to determine if game end
             this.physics.add.collider(this.raccoon, this.obstacleGroup, this.collision, null, this)
+
+
+            if((this.playerScore % 200) == 0 && this.playerScore > 0){
+                this.difficultyIncrease()
+            }
         }
 
         if(this.gameOver){
@@ -112,6 +133,10 @@ class Play extends Phaser.Scene{
     //checks collision between raccoon and obstacle
     collision(){
         this.gameOver = true
+    }
+
+    difficultyIncrease(){
+        console.log('increasing difficulty')
     }
 
     

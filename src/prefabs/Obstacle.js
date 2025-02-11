@@ -14,7 +14,7 @@ class Obstacle extends Phaser.Physics.Arcade.Sprite{
         //spawn location of object
         switch (this.currentLane) {
             case 1:
-                this.setY(Math.ceil((lane01_top + lane01_bottom)/2) - this.height/3)
+                this.setY(Math.ceil((lane01_top + lane01_bottom)/2) - this.height/5)
                 break;
             case 2:
                 this.setY(Math.ceil((lane02_top + lane02_bottom)/2) - this.height/2)
@@ -23,7 +23,7 @@ class Obstacle extends Phaser.Physics.Arcade.Sprite{
                 this.setY(Math.ceil((lane03_top + lane03_bottom)/2) - this.height/2)
                 break;
             case 4:
-                this.setY(Math.ceil((lane04_top + lane04_bottom)/2) - this.height/3)
+                this.setY(Math.ceil((lane04_top + lane04_bottom)/2) - this.height/5)
                 break;
             default:
                 break;

@@ -45,5 +45,5 @@ let lane04_bottom = 438
 
 
 //key bindings
-let keyUP, keyDOWN
+let keyUP, keyDOWN, keyRIGHT, keyR
 
