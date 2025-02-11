@@ -4,7 +4,6 @@ class Play extends Phaser.Scene{
     }
 
     create(){
-
         //add in tilesprite for scrolling background
         this.street = this.add.tileSprite(0,0,this.game.config.width, this.game.config.height, 'street').setOrigin(0).setScrollFactor(1)
 
@@ -46,15 +45,15 @@ class Play extends Phaser.Scene{
         
 
         //up difficulty every 100m
-                this.difficultyTimer = this.time.addEvent({
-                    delay: 10000,
-                    callback: this.difficultyIncrease,
-                    callbackScope: this,
-                    loop: true
-                })
+        this.difficultyTimer = this.time.addEvent({
+            delay: 10000,
+            callback: this.difficultyIncrease,
+            callbackScope: this,
+            loop: true
+        })
                 
         //every 1 second, add to the score
-                this.scoreClock()
+        this.scoreClock()
 
         //draw in the player character and start the running animation
         this.raccoon = new Raccoon(this, this.game.config.width/16, this.game.config.height/2, 'raccoon', 0, 0).setOrigin(0,0).setScale(1.5)
@@ -72,10 +71,6 @@ class Play extends Phaser.Scene{
             runChildUpdate: true
         })
 
-
-        
-
-
         //background music
         let songNum = Phaser.Math.Between(1,2)
 
@@ -86,6 +81,7 @@ class Play extends Phaser.Scene{
             loop: true,
         })
         this.bgm.play()
+
 
     }
 
@@ -113,6 +109,8 @@ class Play extends Phaser.Scene{
                 let carObstacle = new Obstacle(this, this.game.config.width, null, randCar, 0, randLane, speedVarianceCar).setOrigin(0,0).setScale(3)
                 carObstacle.play(randCar + '-drive')
                 this.obstacleGroup.add(carObstacle)
+
+
             }
             else{
                 let animaControlObstacle = new Obstacle(this, this.game.config.width, null, 'animacontrol', 0, randLane, speedVarianceAC).setOrigin(0,0)
